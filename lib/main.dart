@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:login_with_api/pages/home_page.dart';
+import 'package:login_with_api/shared_service.dart';
+
+import 'pages/login_page.dart';
+Widget _defaultHome=LoginPage();
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  bool _isLoggedIn=await SharedService.isLoggedIn();
+  if(_isLoggedIn){
+    _defaultHome=HomePage();
+  }
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Dashboard',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+        primaryColor: Colors.white,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          elevation: 0,
+          foregroundColor: Colors.white,
+        ),
+        accentColor: Colors.redAccent,
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 22.0, color: Colors.redAccent),
+          headline2: TextStyle(
+            fontSize: 24.0,
+            fontWeight: FontWeight.w700,
+            color: Colors.redAccent,
+          ),
+          bodyText1: TextStyle(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+            color: Colors.blueAccent,
+          ),
+        ),
+      ),
+      home: _defaultHome,
+      routes: <String,WidgetBuilder>{
+        '/home':(BuildContext context)=>HomePage(),
+        '/login':(BuildContext context)=>LoginPage(),
+      },
+    );
+  }
+}
